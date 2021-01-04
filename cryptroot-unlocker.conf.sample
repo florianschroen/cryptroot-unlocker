@@ -1,0 +1,2 @@
+TARGET_HOST=<IP or hostname of target>
+TARGET_KEY=<LUKS key of target>
