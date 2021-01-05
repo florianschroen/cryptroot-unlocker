@@ -1,9 +1,8 @@
 #!/bin/bash
 
-. cryptroot-unlocker.conf
-
-TARGET_RSA_NOW=$(ssh-keygen -lf <(ssh-keyscan $TARGET_HOST 2>/dev/null) | grep RSA | cut -d" " -f2)
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. $DIR/cryptroot-unlocker.conf
+TARGET_RSA_NOW=$(ssh-keygen -lf <(ssh-keyscan $TARGET_HOST 2>/dev/null) | grep RSA | cut -d" " -f2)
 CONF=$DIR/cryptroot-unlocker.conf
 
 
