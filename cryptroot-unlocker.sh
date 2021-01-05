@@ -19,7 +19,7 @@ if [[ -z $TARGET_RSA ]]; then
 
     TARGET_RSA=$TARGET_RSA_NOW
 
-    if [[ $(grep TARGET_RSA cryptroot-unlocker.conf) ]]; then
+    if [[ $(grep TARGET_RSA $CONF) ]]; then
         sed -i "s/TARGET_RSA.*/TARGET_RSA=$TARGET_RSA_NOW/" $CONF
     else
         echo "TARGET_RSA=$TARGET_RSA_NOW" >> $CONF
