@@ -1,0 +1,8 @@
+[Unit]
+Description=%p service
+
+[Service]
+#Environment=DEBUG=x
+ExecStart=/home/florian/git/cryptroot-unlocker/cryptroot-unlocker.sh
+Type=oneshot
+
