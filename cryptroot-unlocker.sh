@@ -1,11 +1,22 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-. $DIR/cryptroot-unlocker.conf
-TARGET_RSA_NOW=$(ssh-keygen -lf <(ssh-keyscan $TARGET_HOST 2>/dev/null) | grep RSA | cut -d" " -f2)
+DIR="$(readlink -f $( dirname $0))"
 CONF=$DIR/cryptroot-unlocker.conf
 
+. $DIR/cryptroot-unlocker.conf
+[ $DEBUG ] && set -$DEBUG
 
+TARGET_RSA_NOW=$(ssh-keyscan $TARGET_HOST 2>/dev/null \
+    | ssh-keygen -lf - \
+    | grep RSA \
+    | cut -d" " -f2 \
+    )
+
+if [ ! $TARGET_RSA_NOW ]; then
+    # empty when server not available
+    echo "fingerprint not found. host down?" >&2
+    exit 0
+fi
 
 # Check if fingerprint is known, if not add to $CONF
 if [[ -z $TARGET_RSA ]]; then
@@ -27,8 +38,10 @@ fi
 
 # Compare fingerprints
 if [[ $TARGET_RSA_NOW != $TARGET_RSA ]]; then
-    echo "WARNING! Fingerprints do not match, exiting."
-    exit 1
+    echo "WARNING! Fingerprints do not match, (system running) exiting."
+    exit 0
 fi
 
 ssh -o StrictHostKeyChecking=no root@$TARGET_HOST "printf $TARGET_KEY | cryptroot-unlock"
+
+# vim: sw=4 ts=4 expandtab
