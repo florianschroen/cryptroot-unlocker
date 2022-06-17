@@ -38,7 +38,7 @@ fi
 
 # Compare fingerprints
 if [[ $TARGET_RSA_NOW != $TARGET_RSA ]]; then
-    echo "WARNING! Fingerprints do not match, (system running) exiting."
+    [ $DEBUG ] && echo "WARNING! Fingerprints do not match, (system running normally) exiting."
     exit 0
 fi
 
