@@ -42,6 +42,6 @@ if [[ $TARGET_RSA_NOW != $TARGET_RSA ]]; then
     exit 0
 fi
 
-ssh -o StrictHostKeyChecking=no root@$TARGET_HOST "printf $TARGET_KEY | cryptroot-unlock"
+printf $TARGET_KEY | ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$TARGET_HOST cryptroot-unlock
 
 # vim: sw=4 ts=4 expandtab
